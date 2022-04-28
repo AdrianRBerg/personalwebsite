@@ -1,0 +1,102 @@
+@font-face {
+    font-family: Roboto;
+    src: url(/static/fonts/Roboto-Regular.ttf)
+}
+
+body {
+    font-family: Roboto;
+}
+
+.fade-top {
+    animation: fade_in_top 2s;
+}
+
+.fade-left {
+    animation: fade_in 2s;
+}
+.slight-pad {
+    padding: 5%;
+}
+
+.center {
+    padding-top: 50%;
+    padding: 10px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 50px;
+}
+
+.button {
+	display: inline-block;
+    margin: 0;
+    padding: 0.75rem 1rem;
+	border: 0;
+	border-radius: 0.317rem;
+	background-color: #aaa;
+	color: #fff;
+	text-decoration: none;
+	font-weight: 700;
+	font-size: 1rem;
+    line-height: 1.5;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	cursor: pointer;
+	-webkit-appearance: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Fade sideways */
+
+@keyframes fade_in {
+    0% {opacity:0.2; translate: -100px;}
+    100% {opacity:1;}
+  }
+
+@-moz-keyframes fade_in {
+    0% {opacity:0.2; translate: -100px;}
+    100% {opacity:1;}
+}
+
+@-webkit-keyframes fade_in {
+    0% {opacity:0.2; translate: -100px;}
+    100% {opacity:1;}
+}
+
+@-o-keyframes fade_in {
+    0% {opacity:0.2; translate: -100px;}
+    100% {opacity:1;}
+}
+
+@-ms-keyframes fade_in {
+    0% {opacity:0.2; translate: -100px;}
+    100% {opacity:1;}
+}
+
+
+/* Fade from the top */
+
+@keyframes fade_in_top {
+    0% {opacity:0.2; translate: 0 -50px;}
+    100% {opacity:1;}
+  }
+
+@-moz-keyframes fade_in_top {
+    0% {opacity:0.2; translate: 0 -50px;}
+    100% {opacity:1;}
+}
+
+@-webkit-keyframes fade_in_top {
+    0% {opacity:0.2; translate: 0 -50px;}
+    100% {opacity:1;}
+}
+
+@-o-keyframes fade_in_top {
+    0% {opacity:0.2; translate: 0 -50px;}
+    100% {opacity:1;}
+}
+
+@-ms-keyframes fade_in_top {
+    0% {opacity:0.2; translate: 0 -50px;}
+    100% {opacity:1;}
+}
