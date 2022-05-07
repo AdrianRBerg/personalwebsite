@@ -1,8 +1,0 @@
-CREATE TABLE blog_posts (
-	id SERIAL PRIMARY KEY,
-	title VARCHAR NOT NULL,
-	lan char(2) NOT NULL,
-	body TEXT NOT NULL,
-	published BOOLEAN NOT NULL DEFAULT 'f',
-	date DATE NOT NULL
-)

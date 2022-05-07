@@ -1,14 +1,10 @@
 {% extends "base.html" %}
 
 {% block title %} Index {% endblock %}
+{% block head %}{% endblock %}
 
-{% block head %}
-  <style>
-  </style>
-{% endblock %}
-
-{% block content %}
-<div class = "slight-pad fade-left">
+{% block body %}
+<main role="main" class="center" id="main-content">
   <h1>Adrian Berg</h1>
   <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
@@ -17,5 +13,5 @@
   <a href="/blog"><button class = "button" >Blog</button></a>
   <a href=""><button class = "button" >Portfolio</button></a>
   <a href=""><button class = "button" >Contact me</button></a>
-</div>
+  </main>
 {% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} Blog {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/blog.css">
+{% endblock %}
+
+{% block body %}
+<main role="main" class="center main-content">
+    <h1>Blog</h1>
+    <p>This part contains various articles and posts I've decided to post,<br> either to voice my own opinion or talk about things I have learned.<br>
+        Below this part contains hyperlinks to all posts I have made.</p>
+
+    <div id="grid-parent" class="center">
+        <section role="English posts" id="english">
+        English
+        </section>
+
+        <section role="Norwegian posts" id="norwegian">
+        Norsk
+        </section>
+    </div>
+
+</main>
+{% endblock %}
