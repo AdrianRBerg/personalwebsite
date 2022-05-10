@@ -17,15 +17,20 @@ pub fn ok(message: &str) {
     out("SUCCESS", message);
 }
 
-fn out (logtype: &str, message: &str) {
+fn out(logtype: &str, message: &str) {
     let msg = message;
     let now = Local::now();
     let append = match logtype {
         "WARN" => "WARNING".yellow(),
         "INFO" => "INFO   ".blue(),
-        "ERR"  => "ERROR  ".red(),
+        "ERR" => "ERROR  ".red(),
         "SUCCESS" => "SUCCESS".green(),
-        _ => "UNDEFINED".cyan()
+        _ => "UNDEFINED".cyan(),
     };
-    println!("{:5} {} {}", now.format("[%Y-%m-%d][%H:%M:%S]"), append, msg);
+    println!(
+        "{:5} {} {}",
+        now.format("[%Y-%m-%d][%H:%M:%S]"),
+        append,
+        msg
+    );
 }

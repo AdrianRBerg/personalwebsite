@@ -8,16 +8,28 @@
 {% block body %}
 <main role="main" class="center main-content">
     <h1>Blog</h1>
-    <p>This part contains various articles and posts I've decided to post,<br> either to voice my own opinion or talk about things I have learned.<br>
+    <p>This part contains various articles and posts I've decided to post,<br> either to voice my own opinion or talk
+        about things I have learned.<br>
         Below this part contains hyperlinks to all posts I have made.</p>
 
     <div id="grid-parent" class="center">
         <section role="English posts" id="english">
-        English
+            English<br>
+            {% for x in english %}
+            <section class="post">
+                {{x.title}}<br>
+            </section>
+            {% endfor %}
+
         </section>
 
         <section role="Norwegian posts" id="norwegian">
-        Norsk
+            Norsk<br>
+            {% for x in norwegian %}
+            <section class="post">
+                {{x.title}}<br>
+            </section>
+            {% endfor %}
         </section>
     </div>
 
