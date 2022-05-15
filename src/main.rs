@@ -1,5 +1,6 @@
 use axum::{
     handler::Handler,
+    extract::Path,
     http::StatusCode,
     response::{Html, IntoResponse, Response},
     routing::get,
@@ -7,6 +8,7 @@ use axum::{
     Extension, Router,
 };
 
+use std::collections::HashMap;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::types::chrono::NaiveDate;
 use sqlx::PgPool;
@@ -48,8 +50,9 @@ async fn main() {
             ),
         )
         // Routes
-        .route("/", get(index))
-        .route("/blog", get(blog))
+        .route("/",         get(index))
+        .route("/blog",     get(blog))
+        .route("/post/:id", get(get_blogpost))
         // SQL
         .layer(Extension(pool));
     let app = app.fallback(h404.into_service());
@@ -101,6 +104,42 @@ async fn h404() -> impl IntoResponse {
     HtmlTemplate(template)
 }
 
+async fn get_blogpost(Extension(pool): Extension<PgPool>, Path(params): Path<HashMap<String, String>>) -> Response {
+    // I havent figured out yet if there is a "proper" way to
+    // handle errors, but this solution works just fine. 
+    // Now this should correctly return 404 if the page is not found.
+
+    // Grab the /post/<id> parameter, and turn it into a valid integger
+    let parameter: &String;
+    let id: i16; // SQLX complains that "trait u16 is not satisfied", so its an i16
+    match params.get("id") {
+        Some(urlparam) => parameter = urlparam, // Returns &String
+        None => return h404().await.into_response()
+    };
+    
+    match parameter.parse() {
+        Ok(parsed) => id = parsed, // Becomes i16 if valid
+        Err(_) => return h404().await.into_response()
+    };
+    // Fetch SQL
+    let mut row; 
+    match sqlx::query!("SELECT title, short_desc, body, date FROM blog_posts WHERE id = $1", id)
+        .fetch_one(&pool)
+        .await {
+            Ok(result) => row = result,
+            Err(_) => return h404().await.into_response()
+        };
+    
+    let template = BlogPostDisplay {
+        title: row.title,
+        description: row.short_desc,
+        body: row.body,
+        date: row.date
+    };
+
+    HtmlTemplate(template).into_response()
+}
+
 // Templates
 #[derive(Template)]
 #[template(path = "index.html")]
@@ -111,6 +150,16 @@ struct Index {}
 struct BlogCollection {
     english: Vec<BlogList>,
     norwegian: Vec<BlogList>,
+}
+
+// Templates
+#[derive(Template)]
+#[template(path = "blogpost.html")]
+struct BlogPostDisplay {
+    title: String,
+    description: String,
+    body: String,
+    date: NaiveDate,
 }
 
 #[derive(Template)]
