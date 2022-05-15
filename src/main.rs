@@ -12,7 +12,7 @@ use std::collections::HashMap;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::types::chrono::NaiveDate;
 use sqlx::PgPool;
-
+use base64::decode;
 use dotenv::dotenv;
 use std::env;
 
@@ -111,7 +111,7 @@ async fn get_blogpost(Extension(pool): Extension<PgPool>, Path(params): Path<Has
 
     // Grab the /post/<id> parameter, and turn it into a valid integger
     let parameter: &String;
-    let id: i16; // SQLX complains that "trait u16 is not satisfied", so its an i16
+    let id: i16; // SQLX complains that "trait u16 is not satisfied", so an i16
     match params.get("id") {
         Some(urlparam) => parameter = urlparam, // Returns &String
         None => return h404().await.into_response()
@@ -129,14 +129,15 @@ async fn get_blogpost(Extension(pool): Extension<PgPool>, Path(params): Path<Has
             Ok(result) => row = result,
             Err(_) => return h404().await.into_response()
         };
-    
+    let mut decoded = decode(row.body).unwrap(); // Decode Base64
+    let string_body = String::from_utf8(decoded).unwrap();
     let template = BlogPostDisplay {
         title: row.title,
         description: row.short_desc,
-        body: row.body,
+        body: string_body,
         date: row.date
     };
-
+    info("Served HTML at route /post");
     HtmlTemplate(template).into_response()
 }
 
