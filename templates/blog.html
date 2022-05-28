@@ -15,23 +15,26 @@
     <div id="grid-parent" class="center">
         <section role="English posts" id="english">
             English<br>
-            {% for x in english %}
-            <section class="post">
-                {{x.title}}<br>
-            </section>
+            {% for post in english %}
+            <a href="/post/{{post.id}}">
+                <section class="post">
+                <h3>{{post.title}}</h3>{{post.date}}<br>
+                <h3>{{post.description}}</h3><br>
+            </section></a>
             {% endfor %}
-
         </section>
 
         <section role="Norwegian posts" id="norwegian">
             Norsk<br>
-            {% for x in norwegian %}
-            <section class="post">
-                {{x.title}}<br>
-            </section>
+            {% for post in norwegian %}
+            <a href="/post/{{post.id}}">
+                <section class="post">
+                <h3>{{post.title}}</h3>{{post.date}}<br>
+                <h3>{{post.description}}</h3><br>
+            </section></a>
             {% endfor %}
         </section>
     </div>
-
+<a href="/"><button class="button">Return</button></a>
 </main>
 {% endblock %}

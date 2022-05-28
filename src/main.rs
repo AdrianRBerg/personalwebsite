@@ -111,29 +111,28 @@ async fn get_blogpost(Extension(pool): Extension<PgPool>, Path(params): Path<Has
 
     // Grab the /post/<id> parameter, and turn it into a valid integger
     let parameter: &String;
-    let id: i16; // SQLX complains that "trait u16 is not satisfied", so an i16
+    let id: i32;
     match params.get("id") {
         Some(urlparam) => parameter = urlparam, // Returns &String
         None => return h404().await.into_response()
     };
     
     match parameter.parse() {
-        Ok(parsed) => id = parsed, // Becomes i16 if valid
+        Ok(parsed) => id = parsed, // Becomes i32 if valid
         Err(_) => return h404().await.into_response()
     };
     // Fetch SQL
-    let mut row; 
-    match sqlx::query!("SELECT title, short_desc, body, date FROM blog_posts WHERE id = $1", id)
+    let row; 
+    match sqlx::query!("SELECT title, body, date FROM blog_posts WHERE id = $1", id)
         .fetch_one(&pool)
         .await {
             Ok(result) => row = result,
             Err(_) => return h404().await.into_response()
         };
-    let mut decoded = decode(row.body).unwrap(); // Decode Base64
+    let decoded = decode(row.body).unwrap(); // Decode Base64
     let string_body = String::from_utf8(decoded).unwrap();
     let template = BlogPostDisplay {
         title: row.title,
-        description: row.short_desc,
         body: string_body,
         date: row.date
     };
@@ -158,7 +157,6 @@ struct BlogCollection {
 #[template(path = "blogpost.html")]
 struct BlogPostDisplay {
     title: String,
-    description: String,
     body: String,
     date: NaiveDate,
 }
@@ -186,14 +184,8 @@ where
 
 #[derive(Debug)]
 struct BlogList {
-    id: i16,
+    id: i32,
     title: String,
     description: String,
-    date: NaiveDate,
-}
-#[derive(Debug)]
-struct BlogPost {
-    title: String,
-    body: String,
     date: NaiveDate,
 }

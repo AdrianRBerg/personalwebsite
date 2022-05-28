@@ -2,8 +2,8 @@
 {% block title %} Index {% endblock %}
 {% block head %}{% endblock %}
 {% block body %}
-{{title}}<br>
-{{description}}<br>
-{{ body|safe }}<br>
-{{date}}
+Title:{{title}}<br>
+Body:{{ body|safe }}<br>
+Date:{{date}}<br>
+<a href="/blog"><button class="button">Return</button></a>
 {% endblock %}
