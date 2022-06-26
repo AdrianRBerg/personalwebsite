@@ -14,5 +14,5 @@ tower-http = { version = "0.3.0", features = ["fs", "trace"] }
 colored = "2.0.0"
 chrono = "0.4"
 dotenv = "0.15.0"
-sqlx = { version = "0.5", features = [ "runtime-tokio-rustls", "postgres", "chrono" ] }
+sqlx = { version = "0.6", features = [ "runtime-tokio-rustls", "postgres", "chrono" ] }
 base64 = "0.13.0"
