@@ -10,8 +10,10 @@
         <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js'></script>
         <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css' media="screen" />
 </head>
-  <body>
+  <body class="">
       {% block body %}{% endblock %}
-      <footer><br>Copyrighted under the GPLv3 license. Read more here: <a id="copyright" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a></footer>
+      <footer class="fixed-bottom text-center border-top border-dark bg-white p-2 fs-2" id="copyright">
+        <a class="text-black text-decoration-none" href="https://opensource.org/licenses/MIT">This website is licensed under MIT and the source can be found on </a><a class="text-black text-decoration-none" href="https://github.com/AdrianRBerg/personalwebsite"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"  style="height: 1em">GitHub</a>
+      </footer>
   </body>
 </html>

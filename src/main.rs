@@ -1,6 +1,6 @@
 use axum::{
-    handler::Handler,
     extract::Path,
+    handler::Handler,
     http::StatusCode,
     response::{Html, IntoResponse, Response},
     routing::get,
@@ -8,12 +8,12 @@ use axum::{
     Extension, Router,
 };
 
-use std::collections::HashMap;
+use base64::decode;
+use dotenv::dotenv;
 use sqlx::postgres::PgPoolOptions;
 use sqlx::types::chrono::NaiveDate;
 use sqlx::PgPool;
-use base64::decode;
-use dotenv::dotenv;
+use std::collections::HashMap;
 use std::env;
 
 use askama::Template;
@@ -50,8 +50,8 @@ async fn main() {
             ),
         )
         // Routes
-        .route("/",         get(index))
-        .route("/blog",     get(blog))
+        .route("/", get(index))
+        .route("/blog", get(blog))
         .route("/post/:id", get(get_blogpost))
         // SQL
         .layer(Extension(pool));
@@ -104,9 +104,12 @@ async fn h404() -> impl IntoResponse {
     HtmlTemplate(template)
 }
 
-async fn get_blogpost(Extension(pool): Extension<PgPool>, Path(params): Path<HashMap<String, String>>) -> Response {
+async fn get_blogpost(
+    Extension(pool): Extension<PgPool>,
+    Path(params): Path<HashMap<String, String>>,
+) -> Response {
     // I havent figured out yet if there is a "proper" way to
-    // handle errors, but this solution works just fine. 
+    // handle errors, but this solution works just fine.
     // Now this should correctly return 404 if the page is not found.
 
     // Grab the /post/<id> parameter, and turn it into a valid integger
@@ -114,27 +117,29 @@ async fn get_blogpost(Extension(pool): Extension<PgPool>, Path(params): Path<Has
     let id: i32;
     match params.get("id") {
         Some(urlparam) => parameter = urlparam, // Returns &String
-        None => return h404().await.into_response()
+        None => return h404().await.into_response(),
     };
-    
+
     match parameter.parse() {
         Ok(parsed) => id = parsed, // Becomes i32 if valid
-        Err(_) => return h404().await.into_response()
+        Err(_) => return h404().await.into_response(),
     };
     // Fetch SQL
-    let row; 
-    match sqlx::query!("SELECT title, body, date FROM blog_posts WHERE id = $1", id)
+    let row;
+    match sqlx::query!("SELECT title, short_desc, body, date FROM blog_posts WHERE id = $1", id)
         .fetch_one(&pool)
-        .await {
-            Ok(result) => row = result,
-            Err(_) => return h404().await.into_response()
-        };
+        .await
+    {
+        Ok(result) => row = result,
+        Err(_) => return h404().await.into_response(),
+    };
     let decoded = decode(row.body).unwrap(); // Decode Base64
     let string_body = String::from_utf8(decoded).unwrap();
     let template = BlogPostDisplay {
         title: row.title,
+        short_desc: row.short_desc,
         body: string_body,
-        date: row.date
+        date: row.date,
     };
     info("Served HTML at route /post");
     HtmlTemplate(template).into_response()
@@ -157,6 +162,7 @@ struct BlogCollection {
 #[template(path = "blogpost.html")]
 struct BlogPostDisplay {
     title: String,
+    short_desc: String,
     body: String,
     date: NaiveDate,
 }
