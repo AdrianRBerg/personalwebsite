@@ -6,18 +6,15 @@
 {% endblock %}
 
 {% block body %}
-<main role="main" class="center main-content">
-    <h1>Blog</h1>
-    <p>This part contains various articles and posts I've decided to post,<br> either to voice my own opinion or talk
-        about things I have learned.<br>
-        Below this part contains hyperlinks to all posts I have made.</p>
+<main role="main" class="center main-content container w-75 text-center mt-5">
+    <h1>Blogg</h1>
 
     <div id="grid-parent" class="center">
         <section role="English posts" id="english">
             English<br>
             {% for post in english %}
             <a href="/post/{{post.id}}">
-                <section class="post">
+                <section class="post fs-3">
                 <h3>{{post.title}}</h3>{{post.date}}<br>
                 <h3>{{post.description}}</h3><br>
             </section></a>
@@ -28,7 +25,7 @@
             Norsk<br>
             {% for post in norwegian %}
             <a href="/post/{{post.id}}">
-                <section class="post">
+                <section class="post fs-3">
                 <h3>{{post.title}}</h3>{{post.date}}<br>
                 <h3>{{post.description}}</h3><br>
             </section></a>

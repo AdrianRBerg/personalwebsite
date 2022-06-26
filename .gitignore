@@ -2,3 +2,4 @@
 .env
 .pat
 Cargo.lock
+/.github
