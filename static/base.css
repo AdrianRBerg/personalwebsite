@@ -7,7 +7,7 @@ body {
     font-family: Roboto !important;
 }
 
-#copyright {
+.no-decoration {
     text-decoration-color: black !important;
     color: black;
 }

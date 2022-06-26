@@ -9,29 +9,32 @@
 <main role="main" class="center main-content container w-75 text-center mt-5">
     <h1>Blogg</h1>
 
-    <div id="grid-parent" class="center">
-        <section role="English posts" id="english">
+    <div class="row center">
+        <section role="English posts" id="english" class="col">
             English<br>
             {% for post in english %}
             <a href="/post/{{post.id}}">
-                <section class="post fs-3">
-                <h3>{{post.title}}</h3>{{post.date}}<br>
-                <h3>{{post.description}}</h3><br>
+                <section class="post fs-3 center no-decoration mt-5">
+                <h2>{{post.title}}</h2>
+                {{post.date}}<br>
+                <p>{{post.description}}</hp><br>
             </section></a>
+            <div class="w-100"></div>
             {% endfor %}
         </section>
 
-        <section role="Norwegian posts" id="norwegian">
+        <section role="Norwegian posts" id="norwegian" class="col">
             Norsk<br>
             {% for post in norwegian %}
-            <a href="/post/{{post.id}}">
-                <section class="post fs-3">
-                <h3>{{post.title}}</h3>{{post.date}}<br>
-                <h3>{{post.description}}</h3><br>
+            <a class="col-4" href="/post/{{post.id}}">
+                <section class="post fs-3 center no-decoration mt-5">
+                <h2>{{post.title}}</h2>
+                {{post.date}}<br>
+                <p>{{post.description}}</hp><br>
             </section></a>
             {% endfor %}
         </section>
     </div>
-<a href="/"><button class="button">Return</button></a>
+<a href="/"><button class="button fs-1 mt-2">Gå tilbake</button></a>
 </main>
 {% endblock %}
